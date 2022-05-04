@@ -18,26 +18,38 @@ async function getAllHouses() {
   return await House.find({}).lean();
 }
 async function editHouse(id, dataHouse) {
-  const house = await House.findById(id).lean();
+  const house = await House.findById(id);
 
-    house.name = dataHouse.name,
-    house.type = dataHouse.type,
-    house.year = dataHouse.year,
-    house.city = dataHouse.city,
-    house.homeImage = dataHouse.homeImage,
-    house.propertyDescription = dataHouse.propertyDescription,
-    house.availablePieces = dataHouse.availablePieces;
+  (house.name = dataHouse.name),
+    (house.type = dataHouse.type),
+    (house.year = dataHouse.year),
+    (house.city = dataHouse.city),
+    (house.homeImage = dataHouse.homeImage),
+    (house.propertyDescription = dataHouse.propertyDescription),
+    (house.availablePieces = dataHouse.availablePieces);
+  house.rentedAHome = dataHouse.rentedAHome;
 
-    return house.save()
+  await house.save();
+  return house;
+}
+async function addHouse(houseId, userData) {
+  // const user=await User.findById(userId);
+  const house = await House.findById(houseId);
+
+  house.availablePieces = house.availablePieces - 1;
+  console.log(house.availablePieces);
+  house.rentedAHome.push(userData);
+  return house.save();
 }
 async function deleteHouse(id) {
-    return House.findByIdAndDelete(id)
+  return House.findByIdAndDelete(id);
 }
 
-module.exports={
-    createHouse,
-    getHouseById,
-    getAllHouses,
-    editHouse,
-    deleteHouse
-}
+module.exports = {
+  createHouse,
+  getHouseById,
+  getAllHouses,
+  editHouse,
+  deleteHouse,
+  addHouse,
+};
