@@ -137,6 +137,15 @@ router.post("/edit/:id", async (req, res) => {
 router.get("/search", (req, res) => {
   res.render("search");
 });
+router.post("/search", async (req, res) => {
+  console.log("search", req.body);
+  const query = req.body.type.trim();
+  let have = query != "";
+
+  const many = await req.storage.searchByType(query);
+
+  res.render("search", { have: have, many: many });
+});
 router.get("/rentHome/:id", async (req, res) => {
   const house = await req.storage.getHouseById(req.params.id);
   try {
