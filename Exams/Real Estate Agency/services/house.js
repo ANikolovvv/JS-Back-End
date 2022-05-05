@@ -44,6 +44,12 @@ async function addHouse(houseId, userData) {
 async function deleteHouse(id) {
   return House.findByIdAndDelete(id);
 }
+async function searchByType(type) {
+  const regExp = new RegExp(`^${type}$`, "i");
+  const match = await House.find({ type: { $regex: regExp } }).lean();
+
+  return match;
+}
 
 module.exports = {
   createHouse,
@@ -52,4 +58,5 @@ module.exports = {
   editHouse,
   deleteHouse,
   addHouse,
+  searchByType,
 };
