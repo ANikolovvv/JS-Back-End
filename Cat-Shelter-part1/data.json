@@ -1,22 +1,31 @@
 {
   "cats": [
     {
+      "id": 45456,
       "name": "Mane",
       "description": "black",
       "breed": "Fluffy Cat",
-      "img":"https://icatcare.org/app/uploads/2018/07/Thinking-of-getting-a-cat.png"
+      "img": "https://icatcare.org/app/uploads/2018/07/Thinking-of-getting-a-cat.png"
     },
     {
+      "id": 2044,
       "name": "Salax",
       "description": "white",
       "breed": "Fluffy Cat",
-      "img":"https://icatcare.org/app/uploads/2018/07/Thinking-of-getting-a-cat.png"
+      "img": "https://icatcare.org/app/uploads/2018/07/Thinking-of-getting-a-cat.png"
     },
     {
+      "id": 1,
       "name": "Loki",
       "description": "Medium to large, with males weighing 10 to 15 pounds and females weighing 6 to 11 pounds ",
       "breed": "Chartreux Cat Breed",
-      "img":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRJMYwabsLPOfEhfS43UBOBFjKFgBkyvt0fUBNuP8gBr3z-TYi2fg5ExvbKVhqnlQzegc&usqp=CAU"
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRJMYwabsLPOfEhfS43UBOBFjKFgBkyvt0fUBNuP8gBr3z-TYi2fg5ExvbKVhqnlQzegc&usqp=CAU"
+    },
+    {
+      "id": 4343444,
+      "name": "Pasta",
+      "description": "vvvcbbvc",
+      "breed": "Chartreux Cat Breed"
     }
   ],
   "breeds": [
@@ -25,6 +34,9 @@
     },
     {
       "breed": "Chartreux Cat Breed"
+    },
+    {
+      "breed": "Ulichna"
     }
   ]
 }

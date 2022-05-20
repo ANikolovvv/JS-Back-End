@@ -1,120 +1,74 @@
 const http = require("http");
-const fs = require("fs");
+const fs = require("fs/promises");
+const querystring = require("querystring");
 const formidable = require("formidable");
 const storageServer = require("./server.js");
+const { renderHome } = require("./home");
+const renderAddCatPage = require("./breedOption.js");
+const renderEditPage = require("./editOption.js");
 
-const allBreeds = require("./views/home/breed");
-const data = require("./data.json");
-const template = require("./views/home/home");
+const server = http.createServer(async (req, res) => {
+  let [pathname, qs] = req.url.split("?");
 
-const server = http.createServer((req, res) => {
-  switch (req.url) {
-    case "/":
-      console.log(req.method);
-      if (req.method === "GET") {
-        res.writeHead(200, {
-          "Content-Type": "text/html",
-        });
-        fs.readFile("./views/home/index.html", "utf8", (err, text) => {
-          if (err) {
-            res.statusCode = 404;
-            return res.end();
-          }
-          // console.log(home.all)
-          text = text.replace(
-            `{{home}}`,
-            data.cats.map((x) => template(x)).join("")
-          );
+  let params = querystring.parse(qs);
+  console.log(req.url.includes("edit"));
 
-          res.write(text);
+  res.writeHead(200, {
+    "Content-Type": "text/html",
+  });
+
+  if (req.url == "/styles/site.css") {
+    res.writeHead(200, {
+      "Content-Type": "text/css",
+    });
+
+    let siteCss = await fs.readFile("./styles/site.css", "utf-8");
+    //console.log('site',siteCss)
+    res.write(siteCss);
+  } else if (req.url == "/cats/add-cat") {
+    if (req.method == "GET") {
+      let addCatPage = await renderAddCatPage();
+      res.write(addCatPage);
+    } else {
+      let form = new formidable.IncomingForm();
+      form.parse(req, (err, fields, files) => {
+        storageServer.saveCat(fields).then(() => {
           res.end();
         });
-      } else if (req.method === "POST") {
-        let form = new formidable.IncomingForm();
-        form.parse(req, (err, fields, files) => {
-          // storageServer.saveBreed(fields).then(() => {
-          //   res.end();
-          // });
-          const search = fields.search.toLocaleLowerCase();
-          const filter = data.cats.filter((n) =>
-            n.name.toLowerCase().includes(search)
-          );
-          console.log(filter);
-
-          //   res.writeHead(302, {
-          //     Location: "/",
-          //   });
-          res.end();
-        });
-      }
-      break;
-    case "/content/styles/site.css":
-      let css = fs.readFileSync("./content/styles/site.css");
-      res.writeHead(200, {
-        "Content-Type": "text/css",
+        console.log(fields);
       });
-      res.write(css);
+      res.writeHead(301, {
+        Location: "/",
+      });
       res.end();
-      break;
-
-    case "/cats/add-breed":
-      //console.log(req.method);
-
-      if (req.method === "GET") {
-        res.writeHead(200, {
-          "Content-Type": "text/html",
-        });
-        //let s=fs.readFileSync("./views/addBreed.html")
-        fs.readFile("./views/addBreed.html", (err, text) => {
-          if (err) {
-            res.statusCode = 404;
-            return res.end();
-          }
-          res.write(text);
+    }
+  } else if (req.url == "/cats/add-breed") {
+    if (req.method == "GET") {
+      let addBreed = await fs.readFile("./views/addBreed.html");
+      res.write(addBreed);
+    } else {
+      let form = new formidable.IncomingForm();
+      form.parse(req, (err, fields, files) => {
+        storageServer.saveBreed(fields).then(() => {
           res.end();
         });
-      } else if (req.method === "POST") {
-        let form = new formidable.IncomingForm();
-        form.parse(req, (err, fields, files) => {
-          storageServer.saveBreed(fields).then(() => {
-            res.end();
-          });
-          console.log(fields);
-          res.writeHead(302, {
-            Location: "/",
-          });
-          res.end();
-        });
-      }
-      break;
-    case "/cats/add-cat":
-      if (req.method === "GET") {
-        res.writeHead(200, {
-          "Content-Type": "text/html",
-        });
-        console.log(allBreeds);
-        fs.readFile("./views/addCat.html", "utf8", (err, text) => {
-          if (err) {
-            res.statusCode = 404;
-            return res.end();
-          }
-          text = text.replace(`{{breed}}`, allBreeds);
-          res.write(text);
-          res.end();
-        });
-      } else if (req.method === "POST") {
-        let form = new formidable.IncomingForm();
-        form.parse(req, (err, fields, files) => {
-          storageServer.saveCat(fields).then(() => {
-            res.end();
-          });
-          res.writeHead(302, {
-            Location: "/",
-          });
-          res.end();
-        });
-      }
-      break;
+        console.log(fields);
+      });
+      res.writeHead(301, {
+        Location: "/",
+      });
+      res.end();
+    }
+  } else if (req.url.includes("edit")) {
+    console.log("edit");
+    let edit = await renderEditPage();
+    res.write(edit);
+  } else if (req.url == "/") {
+    let homePage = await renderHome(params.name);
+    res.write(homePage);
   }
+
+  res.end();
 });
+
 server.listen(5000, () => console.log("Server is listening on port 5000..."));
