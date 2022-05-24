@@ -1,0 +1,30 @@
+     <header>
+        <nav>
+            <ul class="navigation">
+                <li><a href="/">Home Page</a></li>
+                <li><a href="/cats/add-breed">Add Breed</a></li>
+                <li><a href="/cats/add-cat">Add Cat</a></li>
+            </ul>
+        </nav>
+        <h1>Cat Shelter</h1>
+        <form action="/" method="GET">
+            <input type="text" name="seacrh">
+            <button type="submit">Search</button>
+        </form>
+    </header>
+
+    <main>
+        <section class="cats">
+            {{#if have}}
+            <ul>
+                {{#each cats}}
+
+                 {{>home-li}}
+
+                {{/each}}
+            </ul>
+            {{else}}
+             <h1>We dont have cats!</h1>
+             {{/if}}
+        </section>
+    </main>
