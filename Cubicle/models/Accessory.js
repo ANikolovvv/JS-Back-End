@@ -12,7 +12,7 @@ const accessorySchema = new mongoose.Schema({
       },
       message: "Image url should be a link",
     },
-  }
+  },
 });
 const Accessory = mongoose.model("Accessory", accessorySchema);
 

@@ -15,8 +15,9 @@ exports.register = async ({ username, password, repeatPassword }) => {
   });
   return createUser;
 };
+
 exports.login = async ({ username, password }) => {
-  let user = await User.findOne({username});
+  let user = await User.findOne({ username });
 
   if (!user) {
     return;

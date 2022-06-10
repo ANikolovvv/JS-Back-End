@@ -30,18 +30,17 @@ async function createCube(cube) {
     console.log("error,create Cube");
   }
 }
-async function editCube(id,cube){
-    try {
-      await Cube.findByIdAndUpdate(id,cube)
-    } catch (error) {
-      console.log('err edit')
-    }
+async function editCube(id, cube) {
+  try {
+    await Cube.findByIdAndUpdate(id, cube);
+  } catch (error) {
+    console.log("err edit");
+  }
 }
 async function attachAccessory(id, acc) {
   const cube = await Cube.findById(id);
   const accessory = await Accessory.findById(acc);
-  ///console.log("getaccc");
-  console.log(accessory, "aasadsdsda");
+ 
   cube.accessories.push(accessory);
 
   try {
@@ -53,4 +52,19 @@ async function attachAccessory(id, acc) {
   return cube;
 }
 
-module.exports = { getAll, getById, createCube, attachAccessory,editCube };
+async function deleteCube(id) {
+  try {
+    await Cube.findByIdAndDelete(id);
+  } catch (err) {
+    console.log(err, "delete");
+  }
+}
+
+module.exports = {
+  getAll,
+  getById,
+  createCube,
+  attachAccessory,
+  editCube,
+  deleteCube,
+};

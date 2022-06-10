@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-const cookieParser = require('cookie-parser');
+const cookieParser = require("cookie-parser");
 
 const hbs = require("express-handlebars");
 
@@ -11,7 +11,6 @@ const router = require("./config/routes");
 const { auth } = require("./middlewares/authMiddlewares");
 start();
 async function start() {
-   
   app.engine(
     "hbs",
     hbs.engine({
@@ -24,7 +23,7 @@ async function start() {
   app.use(express.urlencoded({ extended: false }));
   app.use(auth);
   app.use(router);
-  db()
+  db();
 
-  app.listen(port,() => console.log(`App is listening to port ${port}`));
+  app.listen(port, () => console.log(`App is listening to port ${port}`));
 }
