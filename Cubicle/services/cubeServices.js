@@ -30,6 +30,13 @@ async function createCube(cube) {
     console.log("error,create Cube");
   }
 }
+async function editCube(id,cube){
+    try {
+      await Cube.findByIdAndUpdate(id,cube)
+    } catch (error) {
+      console.log('err edit')
+    }
+}
 async function attachAccessory(id, acc) {
   const cube = await Cube.findById(id);
   const accessory = await Accessory.findById(acc);
@@ -46,4 +53,4 @@ async function attachAccessory(id, acc) {
   return cube;
 }
 
-module.exports = { getAll, getById, createCube, attachAccessory };
+module.exports = { getAll, getById, createCube, attachAccessory,editCube };

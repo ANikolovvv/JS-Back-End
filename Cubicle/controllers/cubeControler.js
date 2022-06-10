@@ -25,8 +25,7 @@ router.post("/create", isAuth, async (req, res) => {
 router.get("/details/:id", isAuth, async (req, res) => {
   const cube = await cubeServices.getById(req.params.id);
   const isOwner = cube.owner == req.user._id;
-  //console.log(cube.accessories);
-  console.log(cube._id);
+  
   res.render("details", { cube, isOwner });
 });
 
@@ -67,5 +66,9 @@ router.get("/edit/:id", isAuth, async (req, res) => {
   }
   res.render("edit", { cube });
 });
+router.post('/edit/:id',isAuth,async (req,res)=>{
+   await cubeServices.editCube(req.params.id,req.body);
+   res.redirect(`/cube/details/${req.params.id}`)
+})
 
 module.exports = router;
