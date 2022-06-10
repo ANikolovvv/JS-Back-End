@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const hbs = require("express-handlebars");
 const db = require("./config/datebase");
-const port = 3000;
+const port = 5000;
 const router = require("./config/routes");
 start();
 async function start() {
