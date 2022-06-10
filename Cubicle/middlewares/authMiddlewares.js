@@ -7,7 +7,7 @@ const jwtVerify=promisify(jwt.verify);
 
 exports.auth=async (req,res,next)=>{
     let token = req.cookies[sessionName];
-    console.log(token,'ressdfdsf')
+   // console.log(token,'ressdfdsf')
     if (token) {
         try {
             let decodedToken = await jwtVerify(token, secret);

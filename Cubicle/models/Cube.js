@@ -6,10 +6,8 @@ const cubeSchema = new mongoose.Schema({
   imageUrl: { type: String, required: true },
   difficultyLevel: { type: Number, required: true, min: 1, max: 6 },
   accessories: [{ type: mongoose.Types.ObjectId, ref: "Accessory" }],
-  owner: {
-    type: mongoose.Types.ObjectId,
-    ref: "User",
-  },
+  owner:{type:mongoose.Types.ObjectId,ref: "User"},
+ 
 });
 const Cube = mongoose.model("Cube", cubeSchema);
 cubeSchema.path("imageUrl").validate(function () {

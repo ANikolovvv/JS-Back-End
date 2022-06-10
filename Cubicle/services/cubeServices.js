@@ -33,7 +33,7 @@ async function createCube(cube) {
 async function attachAccessory(id, acc) {
   const cube = await Cube.findById(id);
   const accessory = await Accessory.findById(acc);
-  console.log("getaccc");
+  ///console.log("getaccc");
   console.log(accessory, "aasadsdsda");
   cube.accessories.push(accessory);
 
